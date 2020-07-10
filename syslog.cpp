@@ -2,9 +2,9 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <sqlext.h>
-#include <sqltypes.h>
-#include <sql.h>
+//#include <sqlext.h>
+//#include <sqltypes.h>
+//#include <sql.h>
 
 using namespace std;
 #pragma  comment(lib,"wsock32.lib")
