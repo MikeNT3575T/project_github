@@ -19,7 +19,7 @@ void InitializeSocket(void)
 {
 	if (WSAStartup(MAKEWORD(2, 2), &wsd) != 0)
 	{
-		std::cout << "WSAStartup fail" << std::endl;
+		std::cout << "WSAStartup fail" << std::endl; 
 	}
 	s = socket(AF_INET, SOCK_DGRAM, 0);
 	if (s == INVALID_SOCKET)
