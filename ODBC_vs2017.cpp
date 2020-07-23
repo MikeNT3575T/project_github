@@ -1,5 +1,5 @@
 /*******************************************************************************
-/* ODBC for vs2017 use*/
+/* ODBC for vs2017 use delete*/
 /* ODBCSQL: a sample program that implements an ODBC command line interpreter.
 /*
 /* USAGE:   ODBCSQL DSN=<dsn name>   or
