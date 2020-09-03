@@ -195,8 +195,6 @@ int __cdecl wmain(int argc, _In_reads_(argc) WCHAR** argv)
 		strftime(tmp, sizeof(tmp), "%w%H00", localtime(&now));
 		string tmnow = tmp;
 		if (ltm->tm_min == 0 && ltm->tm_sec == 0) {
-
-			cout << "case1 " << tmnow << '\n';
 			//wstring wstrtime = L"IF NOT EXISTS(SELECT * FROM syslogtest4 WHERE Time = ";
 			//wstrtime.append(tmnow.begin(), tmnow.end());
 			wstring wstrtime = L"UPDATE test2 SET Count = (SELECT COUNT(STA_Mac) FROM syslogtest4) FROM test2 INNER JOIN syslogtest4 ON test2.Time = syslogtest4.Time TRUNCATE TABLE syslogtest4 IF (SELECT COUNT(STA_Mac) FROM syslogtest4)=0 INSERT INTO syslogtest4 SELECT syslogtest2.Time, syslogtest2.STA_Mac from syslogtest2";
@@ -240,6 +238,7 @@ int __cdecl wmain(int argc, _In_reads_(argc) WCHAR** argv)
 
 					if (cRowCount >= 0)
 					{
+						wcout << "Load Balance(hour) " << times << '\n';
 						wprintf(L"%Id %s affected\n",
 							cRowCount,
 							cRowCount == 1 ? L"row" : L"rows");
@@ -262,10 +261,11 @@ int __cdecl wmain(int argc, _In_reads_(argc) WCHAR** argv)
 				SQL_HANDLE_STMT,
 				SQLFreeStmt(hStmt, SQL_CLOSE));
 			//wprintf(L"SQL COMMAND>");
+			END = clock();
+			cout << (END - START) / CLOCKS_PER_SEC << '\n';
 		}
 		else if (!stamac.empty() && connection != L"blocked")
 		{
-			wcout << "case2 " << times << '\n';
 			RETCODE     RetCode;
 			SQLSMALLINT sNumResults;
 			//========================================================================================
@@ -394,6 +394,7 @@ int __cdecl wmain(int argc, _In_reads_(argc) WCHAR** argv)
 
 					if (cRowCount >= 0)
 					{
+						wcout << "Log   Record   " << times << '\n';
 						wprintf(L"%Id %s affected\n",
 							cRowCount,
 							cRowCount == 1 ? L"row" : L"rows");
@@ -447,9 +448,9 @@ int __cdecl wmain(int argc, _In_reads_(argc) WCHAR** argv)
 
 					if (cRowCount >= 0)
 					{
-						wprintf(L"%Id %s affected\n",
-							cRowCount,
-							cRowCount == 1 ? L"row" : L"rows");
+						cRowCount == 1 ? cout << "Band  Select   " : cout << "Band Select & Load Balance ";
+						wcout << times << '\n' << cRowCount;
+						cRowCount == 1 ? cout << " row affected\n" : cout << " rows affected\n";
 					}
 				}
 				break;
@@ -469,10 +470,11 @@ int __cdecl wmain(int argc, _In_reads_(argc) WCHAR** argv)
 				SQL_HANDLE_STMT,
 				SQLFreeStmt(hStmt, SQL_CLOSE));
 			//wprintf(L"SQL COMMAND>");
+			END = clock();
+			cout << (END - START) / CLOCKS_PER_SEC << '\n';
 		}
 		else if (proreq != 0)
 		{
-			wcout << "case3 " << times << '\n';
 			RETCODE     RetCode;
 			SQLSMALLINT sNumResults;
 			//========================================================================================
@@ -560,6 +562,7 @@ int __cdecl wmain(int argc, _In_reads_(argc) WCHAR** argv)
 
 					if (cRowCount >= 0)
 					{
+						wcout << "Smart Steering " << times << '\n';
 						wprintf(L"%Id %s affected\n",
 							cRowCount,
 							cRowCount == 1 ? L"row" : L"rows");
@@ -582,9 +585,9 @@ int __cdecl wmain(int argc, _In_reads_(argc) WCHAR** argv)
 				SQL_HANDLE_STMT,
 				SQLFreeStmt(hStmt, SQL_CLOSE));
 			//wprintf(L"SQL COMMAND>");
+			END = clock();
+			cout << (END - START) / CLOCKS_PER_SEC << '\n';
 		}
-		END = clock();
-		cout << (END - START) / CLOCKS_PER_SEC << endl;
 	}
 	ReleaseSocket();
 Exit:
